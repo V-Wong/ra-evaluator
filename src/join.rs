@@ -4,6 +4,7 @@ use crate::Expression;
 /// The mapper function is required in order to provide typing for
 /// the joined result as Rust does not have a way to take the product of
 /// two types without nesting types.
+#[derive(Clone)]
 pub struct Join<L: Clone, R: Clone, Res: Clone, EL, ER>
 where
     EL: Expression<L>,

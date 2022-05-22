@@ -2,6 +2,7 @@ use crate::{Expression, Join};
 
 /// The relational algebra for taking the Cartesian product of two relations.
 /// This is equivalent to unconditionally joining the two relations.
+#[derive(Clone)]
 pub struct CartesianProduct<L: Clone, R: Clone, Res: Clone, EL, ER>
 where
     EL: Expression<L>,

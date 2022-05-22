@@ -3,6 +3,7 @@ use crate::Expression;
 /// The most basic operation for a relation; performs no transformations.
 /// This is intended to be a basic and transparent wrapper of a relation
 /// in order to start expression building.
+#[derive(Clone)]
 pub struct Terminal<S: Clone> {
     rows: Vec<S>,
 }

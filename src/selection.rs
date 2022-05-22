@@ -1,6 +1,7 @@
 use crate::Expression;
 
 /// The relational algebra operation for filtering rows with a predicate.
+#[derive(Clone)]
 pub struct Selection<S: Clone, E>
 where
     E: Expression<S>,

@@ -2,7 +2,7 @@
 /// Implemented by operations such as Projection, Selection, Join, etc.
 /// Expressions are intended to be recursive and contain sub-expressions.
 
-pub trait Expression<S> {
+pub trait Expression<S>: Clone {
     type Output;
 
     /// Calls evaluation on any sub-expressions before performing its 
