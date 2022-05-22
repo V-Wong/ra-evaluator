@@ -14,7 +14,7 @@ where
 impl<S: Clone, T: Clone, E> Projection<S, T, E>
 where
     E: Expression<S>, {
-    fn new(expression: E, mapper: fn(&S) -> T) -> Self {
+    pub fn new(expression: E, mapper: fn(&S) -> T) -> Self {
         Self {
             expression,
             mapper

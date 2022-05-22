@@ -20,7 +20,7 @@ where
     EL: Expression<L>,
     ER: Expression<R>,
 {
-    fn new(
+    pub fn new(
         left_expression: EL,
         right_expression: ER,
         predicate: fn(&L, &R) -> bool,

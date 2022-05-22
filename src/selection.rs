@@ -12,7 +12,7 @@ where
 impl<S: Clone, E> Selection<S, E>
 where
     E: Expression<S>, {
-    fn new(expression: E, predicate: fn(&S) -> bool) -> Self {
+    pub fn new(expression: E, predicate: fn(&S) -> bool) -> Self {
         Self {
             expression,
             predicate
