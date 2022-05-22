@@ -1,9 +1,11 @@
 mod expression;
-mod terminal;
 mod projection;
 mod selection;
+mod terminal;
+mod join;
 
 pub use expression::*;
-pub use terminal::*;
 pub use projection::*;
 pub use selection::*;
+pub use terminal::*;
+pub use join::*;
