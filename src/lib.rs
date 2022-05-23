@@ -1,4 +1,5 @@
 mod expression;
+mod expression_builder;
 mod projection;
 mod selection;
 mod terminal;
@@ -8,6 +9,7 @@ mod intersection;
 mod cartesian_product;
 
 pub use expression::*;
+pub use expression_builder::*;
 pub use projection::*;
 pub use selection::*;
 pub use terminal::*;
