@@ -3,6 +3,7 @@ use crate::*;
 use std::marker::PhantomData;
 
 /// A utility struct to build relational algebra expressions.
+/// 
 /// Different relational algebra expressions can be "chained together"
 /// to build more complex relational algebra expressions.
 /// The ``eval`` method can then be called at the end to evaluate the relational

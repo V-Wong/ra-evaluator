@@ -3,6 +3,7 @@ use crate::Expression;
 use std::marker::PhantomData;
 
 /// The relational algebra operation for taking the union of two relations.
+/// 
 /// Note that this is operation uses bag semantics and so duplicates can
 // appear in the result.
 #[derive(Clone)]

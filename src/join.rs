@@ -1,6 +1,7 @@
 use crate::Expression;
 
 /// The relational algebra operation responsible for joining two relations.
+/// 
 /// The mapper function is required in order to provide typing for
 /// the joined result as Rust does not have a way to take the product of
 /// two types without nesting types.
