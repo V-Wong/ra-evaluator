@@ -2,13 +2,11 @@
 /// Implemented by operations such as Projection, Selection, Join, etc.
 /// Expressions are intended to be recursive and contain sub-expressions.
 
-pub trait Expression<S>: Clone 
+pub trait Expression<Output>: Clone 
 where
-    S: Clone + Eq + PartialEq,
+    Output: Clone + Eq + PartialEq,
 {
-    type Output;
-
     /// Calls evaluation on any sub-expressions before performing its 
     /// own transformation and returning the (unwrapped) result.
-    fn eval(&self) -> Vec<Self::Output>;
+    fn eval(&self) -> Vec<Output>;
 }

@@ -27,10 +27,8 @@ where
 impl<S, E> Expression<S> for Selection<S, E>
 where
     S: Clone + Eq + PartialEq,
-    E: Expression<S, Output = S>,
+    E: Expression<S>,
 {
-    type Output = S;
-
     fn eval(&self) -> Vec<S> {
         self.expression.eval().into_iter().filter(self.predicate).collect()
     }

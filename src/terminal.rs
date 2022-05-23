@@ -26,8 +26,6 @@ impl<S> Expression<S> for Terminal<S>
 where 
     S: Clone + Eq + PartialEq,
 {
-    type Output = S;
-
     fn eval(&self) -> Vec<S> {
         self.rows.clone()
     }

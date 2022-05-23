@@ -38,11 +38,9 @@ where
 impl<S, E1, E2> Expression<S> for Intersection<S, E1, E2>
 where
     S: Clone + Eq + PartialEq,
-    E1: Expression<S, Output = S>,
-    E2: Expression<S, Output = S>,
+    E1: Expression<S>,
+    E2: Expression<S>,
 {
-    type Output = S;
-
     fn eval(&self) -> Vec<S> {
         let left_result = (self.left_expression).eval();
         let right_result = (self.right_expression).eval();

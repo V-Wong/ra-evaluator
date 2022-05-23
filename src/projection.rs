@@ -32,10 +32,8 @@ impl<S, T, E> Expression<T> for Projection<S, T, E>
 where
     S: Clone + Eq + PartialEq,
     T: Clone + Eq + PartialEq,
-    E: Expression<S, Output = S>,
+    E: Expression<S>,
 {
-    type Output = T;
-
     fn eval(&self) -> Vec<T> {
         self.expression.eval().iter().map(self.mapper).collect()
     }

@@ -34,11 +34,9 @@ where
     L: Clone + Eq + PartialEq,
     R: Clone + Eq + PartialEq,
     Res: Clone + Eq + PartialEq,
-    EL: Expression<L, Output = L>,
-    ER: Expression<R, Output = R>,
+    EL: Expression<L>,
+    ER: Expression<R>,
 {
-    type Output = Res;
-
     fn eval(&self) -> Vec<Res> {
         self.joiner.eval()
     }
