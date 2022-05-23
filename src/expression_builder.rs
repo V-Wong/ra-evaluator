@@ -2,7 +2,7 @@ use crate::*;
 
 use std::marker::PhantomData;
 
-/// A utility struct to build relational algebra expressions.
+/// Is a utility struct for building complex ``Expression``s.
 /// 
 /// Different relational algebra expressions can be "chained together"
 /// to build more complex relational algebra expressions.

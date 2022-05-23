@@ -1,4 +1,4 @@
-/// The trait for relational algebraic expressions over generic tuple-based relations.
+/// Defines relational algebraic expressions over generic tuple-based relations.
 /// 
 /// Implemented by operations such as Projection, Selection, Join, etc.
 /// Expressions are intended to be recursive and contain sub-expressions.

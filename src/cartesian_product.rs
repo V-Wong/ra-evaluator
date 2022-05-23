@@ -1,8 +1,6 @@
 use crate::{Expression, Join};
 
-/// The relational algebra operation for taking the Cartesian product of two relations.
-/// 
-/// This is equivalent to unconditionally joining the two relations.
+/// Produces the unconditional join of ``left_expression`` and ``right_expression``.
 #[derive(Clone)]
 pub struct CartesianProduct<L, R, Res, EL, ER>
 where

@@ -1,6 +1,6 @@
 use crate::Expression;
 
-/// The relational algebra operation for filtering rows with a predicate.
+/// Filters the tuples in ``expression`` that satisfy ``predicate``.
 #[derive(Clone)]
 pub struct Selection<S, E>
 where
