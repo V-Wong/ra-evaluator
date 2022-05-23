@@ -2,7 +2,8 @@ use crate::Expression;
 
 use std::marker::PhantomData;
 
-/// The relational algebra operation for taking the union of two relations.
+/// Takes all tuples in ``left_expression`` and combines it with all tuples in ``right_expression``.
+/// 
 /// Note that this is operation uses bag semantics and so duplicates can
 // appear in the result.
 #[derive(Clone)]

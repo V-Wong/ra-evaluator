@@ -1,6 +1,7 @@
 use crate::Expression;
 
-/// The relational algebra operation responsible for picking a subset of columns.
+/// Picks a subset of columns from each tuple according to ``mapper``.
+/// 
 /// This is technically a generalized projection in that arbitrary mappings
 /// can be performed over the columns through the mapper function.
 #[derive(Clone)]
