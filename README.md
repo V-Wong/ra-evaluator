@@ -1,5 +1,5 @@
 # ra-evaluator
-A simple type-safe relational algebra evaluator. 
+A simple type-safe [relational algebra](https://en.wikipedia.org/wiki/Relational_algebra) evaluator. 
 
 Relational algebra provides the theoretical foundation for relational databases
 and the SQL language. This library provides a means to build expressions in the

@@ -1,8 +1,10 @@
-//! A simple type-safe relational algebra evaluator.
+//! A simple type-safe [relational algebra] evaluator.
 //! 
 //! Relational algebra provides the theoretical foundation for relational databases
 //! and the SQL language. This library provides a means to build expressions in the
 //! language of relational algebra and evaluate them to obtain a concrete result.
+//! 
+//! [relational algebra]: https://en.wikipedia.org/wiki/Relational_algebra
 //! 
 //! # Sample Usage
 //! 
@@ -26,6 +28,7 @@
 //! 
 //! // Results in ``[("c", 1, "Join1"), ("c", 2, "Join2"), ("d", 3, "Union")]``
 //! println!("{:?}", query.eval());
+//! 
 //! ```
 
 mod expression;
