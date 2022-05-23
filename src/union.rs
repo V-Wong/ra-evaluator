@@ -6,20 +6,22 @@ use std::marker::PhantomData;
 /// Note that this is operation uses bag semantics and so duplicates can
 // appear in the result.
 #[derive(Clone)]
-pub struct Union<S: Clone, E>
+pub struct Union<S: Clone, E1, E2>
 where
-    E: Expression<S>,
+    E1: Expression<S>,
+    E2: Expression<S>,
 {
-    pub left_expression: E,
-    pub right_expression: E,
+    pub left_expression: E1,
+    pub right_expression: E2,
     phantom: PhantomData<S>,
 }
 
-impl<S: Clone, E> Union<S, E>
+impl<S: Clone, E1, E2> Union<S, E1, E2>
 where
-    E: Expression<S>,
+    E1: Expression<S>,
+    E2: Expression<S>,
 {
-    pub fn new(left_expression: E, right_expression: E) -> Self {
+    pub fn new(left_expression: E1, right_expression: E2) -> Self {
         Self {
             left_expression,
             right_expression,
@@ -28,9 +30,10 @@ where
     }
 }
 
-impl<S: Clone, E> Expression<S> for Union<S, E>
+impl<S: Clone, E1, E2> Expression<S> for Union<S, E1, E2>
 where
-    E: Expression<S, Output = S>,
+    E1: Expression<S, Output = S>,
+    E2: Expression<S, Output = S>,
 {
     type Output = S;
 
