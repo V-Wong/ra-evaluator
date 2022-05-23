@@ -11,6 +11,7 @@ use std::marker::PhantomData;
 #[derive(Clone)]
 pub struct Intersection<S: Clone, E1, E2>
 where
+    S: Clone + Eq + PartialEq,
     E1: Expression<S>,
     E2: Expression<S>,
 {
@@ -21,7 +22,7 @@ where
 
 impl<S, E1, E2> Intersection<S, E1, E2>
 where
-    S: Clone + Eq + PartialEq + Hash,
+    S: Clone + Eq + PartialEq,
     E1: Expression<S>,
     E2: Expression<S>,
 {
@@ -36,7 +37,7 @@ where
 
 impl<S, E1, E2> Expression<S> for Intersection<S, E1, E2>
 where
-    S: Clone + Eq + PartialEq + Hash,
+    S: Clone + Eq + PartialEq,
     E1: Expression<S, Output = S>,
     E2: Expression<S, Output = S>,
 {
@@ -44,13 +45,15 @@ where
 
     fn eval(&self) -> Vec<S> {
         let left_result = (self.left_expression).eval();
-        let right_result: HashSet<S> = HashSet::from_iter((self.right_expression).eval());
+        let right_result = (self.right_expression).eval();
 
         let mut result = Vec::new();
 
-        for row in left_result {
-            if right_result.contains(&row) {
-                result.push(row);
+        for row1 in &left_result {
+            for row2 in &right_result {
+                if row1 == row2 {
+                    result.push(row1.clone());
+                }
             }
         }
 
