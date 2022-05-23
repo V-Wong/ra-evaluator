@@ -4,17 +4,22 @@ use crate::Expression;
 /// This is technically a generalized projection in that arbitrary mappings
 /// can be performed over the columns through the mapper function.
 #[derive(Clone)]
-pub struct Projection<S: Clone, T: Clone, E>
+pub struct Projection<S, T, E>
 where
+    S: Clone + Eq + PartialEq,
+    T: Clone + Eq + PartialEq,
     E: Expression<S>,
 {
     pub expression: E,
     pub mapper: fn(&S) -> T
 }
 
-impl<S: Clone, T: Clone, E> Projection<S, T, E>
+impl<S, T, E> Projection<S, T, E>
 where
-    E: Expression<S>, {
+    S: Clone + Eq + PartialEq,
+    T: Clone + Eq + PartialEq,
+    E: Expression<S>, 
+{
     pub fn new(expression: E, mapper: fn(&S) -> T) -> Self {
         Self {
             expression,
@@ -23,8 +28,10 @@ where
     }
 }
 
-impl<S: Clone, T: Clone, E> Expression<T> for Projection<S, T, E>
+impl<S, T, E> Expression<T> for Projection<S, T, E>
 where
+    S: Clone + Eq + PartialEq,
+    T: Clone + Eq + PartialEq,
     E: Expression<S, Output = S>,
 {
     type Output = T;
@@ -42,8 +49,8 @@ mod test {
     #[test]
     fn keep_all_columns() {
         let values = &[
-            (1, "test string", 123.4),
-            (2, "another string", 25.6)
+            (1, "test string", 123),
+            (2, "another string", 25)
         ];
 
         assert_eq!(Projection::new(Terminal::new(values), |x| *x).eval(), values);
@@ -52,8 +59,8 @@ mod test {
     #[test]
     fn keep_zero_columns() {
         let values = &[
-            (1, "test string", 123.4),
-            (2, "another string", 25.6)
+            (1, "test string", 123),
+            (2, "another string", 25)
         ];
 
         assert_eq!(Projection::new(Terminal::new(values), |_| ()).eval(), &[(), ()]);
@@ -62,13 +69,13 @@ mod test {
     #[test]
     fn keep_some_columns() {
         let values = &[
-            (1, "test string", 123.4),
-            (2, "another string", 25.6)
+            (1, "test string", 123),
+            (2, "another string", 25)
         ];
 
         let expected_result = &[
-            ("test string", 123.4),
-            ("another string", 25.6)
+            ("test string", 123),
+            ("another string", 25)
         ];
 
         assert_eq!(Projection::new(Terminal::new(values), |x| (x.1, x.2)).eval(), expected_result);

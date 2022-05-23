@@ -4,11 +4,17 @@ use crate::Expression;
 /// This is intended to be a basic and transparent wrapper of a relation
 /// in order to start expression building.
 #[derive(Clone)]
-pub struct Terminal<S: Clone> {
+pub struct Terminal<S>
+where
+    S: Clone + Eq + PartialEq,
+{
     rows: Vec<S>,
 }
 
-impl<S: Clone> Terminal<S> {
+impl<S> Terminal<S> 
+where
+    S: Clone + Eq + PartialEq,
+{
     pub fn new(rows: &[S]) -> Self {
         Self {
             rows: rows.to_vec(),
@@ -16,7 +22,10 @@ impl<S: Clone> Terminal<S> {
     }
 }
 
-impl<S: Clone> Expression<S> for Terminal<S> {
+impl<S> Expression<S> for Terminal<S>
+where 
+    S: Clone + Eq + PartialEq,
+{
     type Output = S;
 
     fn eval(&self) -> Vec<S> {
@@ -43,8 +52,8 @@ mod test {
     #[test]
     fn complex_type() {
         let values = &[
-            (1, "test string", 123.4),
-            (2, "another string", 25.6)
+            (1, "test string", 123),
+            (2, "another string", 25)
         ];
 
         assert_eq!((Terminal::new(values)).eval(), values);

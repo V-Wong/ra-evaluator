@@ -2,17 +2,20 @@ use crate::Expression;
 
 /// The relational algebra operation for filtering rows with a predicate.
 #[derive(Clone)]
-pub struct Selection<S: Clone, E>
+pub struct Selection<S, E>
 where
+    S: Clone + Eq + PartialEq,
     E: Expression<S>,
 {
     pub expression: E,
     pub predicate: fn(&S) -> bool
 }
 
-impl<S: Clone, E> Selection<S, E>
+impl<S, E> Selection<S, E>
 where
-    E: Expression<S>, {
+    S: Clone + Eq + PartialEq,
+    E: Expression<S>, 
+{
     pub fn new(expression: E, predicate: fn(&S) -> bool) -> Self {
         Self {
             expression,
@@ -21,8 +24,9 @@ where
     }
 }
 
-impl<S: Clone, E> Expression<S> for Selection<S, E>
+impl<S, E> Expression<S> for Selection<S, E>
 where
+    S: Clone + Eq + PartialEq,
     E: Expression<S, Output = S>,
 {
     type Output = S;
@@ -40,8 +44,8 @@ mod test {
     #[test]
     fn keep_all_rows() {
         let values = &[
-            (1, "test string", 123.4),
-            (2, "another string", 25.6)
+            (1, "test string", 123),
+            (2, "another string", 25)
         ];
 
         assert_eq!(Selection::new(Terminal::new(values), |_| true).eval(), values);
@@ -50,8 +54,8 @@ mod test {
     #[test]
     fn keep_zero_rows() {
         let values = &[
-            (1, "test string", 123.4),
-            (2, "another string", 25.6)
+            (1, "test string", 123),
+            (2, "another string", 25)
         ];
 
         assert_eq!(Selection::new(Terminal::new(values), |_| false).eval(), &[]);
@@ -60,17 +64,17 @@ mod test {
     #[test]
     fn keep_some_rows() {
         let values = &[
-            (1, "test string", 123.4),
-            (2, "another string", 25.6),
-            (3, "yes another string", -50.0)
+            (1, "test string", 123),
+            (2, "another string", 25),
+            (3, "yes another string", -50)
         ];
 
         assert_eq!(
             Selection::new(
                 Terminal::new(values), 
-                |x| x.0 >= 2 && x.2 > 0.0
+                |x| x.0 >= 2 && x.2 > 0
             ).eval(),
-            &[(2, "another string", 25.6)]
+            &[(2, "another string", 25)]
         );
     }
 }

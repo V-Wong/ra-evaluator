@@ -5,8 +5,11 @@ use crate::Expression;
 /// the joined result as Rust does not have a way to take the product of
 /// two types without nesting types.
 #[derive(Clone)]
-pub struct Join<L: Clone, R: Clone, Res: Clone, EL, ER>
+pub struct Join<L, R, Res, EL, ER>
 where
+    L: Clone + Eq + PartialEq,
+    R: Clone + Eq + PartialEq,
+    Res: Clone + Eq + PartialEq,
     EL: Expression<L>,
     ER: Expression<R>,
 {
@@ -16,8 +19,11 @@ where
     pub mapper: fn(&L, &R) -> Res,
 }
 
-impl<L: Clone, R: Clone, Res: Clone, EL, ER> Join<L, R, Res, EL, ER>
+impl<L, R, Res, EL, ER> Join<L, R, Res, EL, ER>
 where
+    L: Clone + Eq + PartialEq,
+    R: Clone + Eq + PartialEq,
+    Res: Clone + Eq + PartialEq,
     EL: Expression<L>,
     ER: Expression<R>,
 {
@@ -36,9 +42,11 @@ where
     }
 }
 
-impl<L: Clone, R: Clone, Res: Clone, EL, ER> Expression<Res>
-    for Join<L, R, Res, EL, ER>
+impl<L, R, Res, EL, ER> Expression<Res> for Join<L, R, Res, EL, ER>
 where
+    L: Clone + Eq + PartialEq,
+    R: Clone + Eq + PartialEq,
+    Res: Clone + Eq + PartialEq,
     EL: Expression<L, Output = L>,
     ER: Expression<R, Output = R>,
 {
@@ -69,83 +77,87 @@ mod test {
 
     #[test]
     fn cartesian_product_homogenous_types() {
-        let values1 = &[(1, "test string", 123.4), (2, "another string", 25.6)];
-        let values2 = &[(1, "test string", 123.4), (2, "another string", 25.6)];
+        let values1 = &[(1, "test string", 123), (2, "another string", 25)];
+        let values2 = &[(1, "test string", 123), (2, "another string", 25)];
 
         let expected_result = &[
-            (1, "test string", 123.4, 1, "test string", 123.4),
-            (1, "test string", 123.4, 2, "another string", 25.6),
-            (2, "another string", 25.6, 1, "test string", 123.4),
-            (2, "another string", 25.6, 2, "another string", 25.6)
+            (1, "test string", 123, 1, "test string", 123),
+            (1, "test string", 123, 2, "another string", 25),
+            (2, "another string", 25, 1, "test string", 123),
+            (2, "another string", 25, 2, "another string", 25),
         ];
 
         assert_eq!(
             Join::new(
-                Terminal::new(values1), 
-                Terminal::new(values2), 
+                Terminal::new(values1),
+                Terminal::new(values2),
                 |_, _| true,
                 |x, y| (x.0, x.1, x.2, y.0, y.1, y.2),
-            ).eval(),
+            )
+            .eval(),
             expected_result
         );
     }
 
     #[test]
     fn cartesian_product_heterogenous_types() {
-        let values1 = &[(1, "test string", 123.4), (2, "another string", 25.6)];
+        let values1 = &[(1, "test string", 123), (2, "another string", 25)];
         let values2 = &[("a", 1), ("b", 2)];
 
         let expected_result = &[
-            (1, "test string", 123.4, "a", 1),
-            (1, "test string", 123.4, "b", 2),
-            (2, "another string", 25.6, "a", 1),
-            (2, "another string", 25.6, "b", 2)
+            (1, "test string", 123, "a", 1),
+            (1, "test string", 123, "b", 2),
+            (2, "another string", 25, "a", 1),
+            (2, "another string", 25, "b", 2),
         ];
 
         assert_eq!(
             Join::new(
-                Terminal::new(values1), 
-                Terminal::new(values2), 
+                Terminal::new(values1),
+                Terminal::new(values2),
                 |_, _| true,
                 |x, y| (x.0, x.1, x.2, y.0, y.1),
-            ).eval(),
+            )
+            .eval(),
             expected_result
         );
     }
 
     #[test]
     fn conditional_join_on_key() {
-        let values1 = &[(1, "test string", 123.4), (2, "another string", 25.6)];
+        let values1 = &[(1, "test string", 123), (2, "another string", 25)];
         let values2 = &[("a", 1), ("b", 2)];
 
         let expected_result = &[
-            (1, "test string", 123.4, "a", 1),
-            (2, "another string", 25.6, "b", 2)
+            (1, "test string", 123, "a", 1),
+            (2, "another string", 25, "b", 2),
         ];
 
         assert_eq!(
             Join::new(
-                Terminal::new(values1), 
-                Terminal::new(values2), 
+                Terminal::new(values1),
+                Terminal::new(values2),
                 |x, y| x.0 == y.1,
                 |x, y| (x.0, x.1, x.2, y.0, y.1),
-            ).eval(),
+            )
+            .eval(),
             expected_result
         );
     }
 
     #[test]
     fn empty_join() {
-        let values1 = &[(1, "test string", 123.4), (2, "another string", 25.6)];
+        let values1 = &[(1, "test string", 123), (2, "another string", 25)];
         let values2 = &[("a", 1), ("b", 2)];
 
         assert_eq!(
             Join::new(
-                Terminal::new(values1), 
-                Terminal::new(values2), 
+                Terminal::new(values1),
+                Terminal::new(values2),
                 |x, y| false,
                 |x, y| (x.0, x.1, x.2, y.0, y.1),
-            ).eval(),
+            )
+            .eval(),
             &[]
         );
     }

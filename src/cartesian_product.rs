@@ -3,16 +3,22 @@ use crate::{Expression, Join};
 /// The relational algebra for taking the Cartesian product of two relations.
 /// This is equivalent to unconditionally joining the two relations.
 #[derive(Clone)]
-pub struct CartesianProduct<L: Clone, R: Clone, Res: Clone, EL, ER>
+pub struct CartesianProduct<L, R, Res, EL, ER>
 where
+    L: Clone + Eq + PartialEq,
+    R: Clone + Eq + PartialEq,
+    Res: Clone + Eq + PartialEq,
     EL: Expression<L>,
     ER: Expression<R>,
 {
     pub joiner: Join<L, R, Res, EL, ER>,
 }
 
-impl<L: Clone, R: Clone, Res: Clone, EL, ER> CartesianProduct<L, R, Res, EL, ER>
+impl<L, R, Res, EL, ER> CartesianProduct<L, R, Res, EL, ER>
 where
+    L: Clone + Eq + PartialEq,
+    R: Clone + Eq + PartialEq,
+    Res: Clone + Eq + PartialEq,
     EL: Expression<L>,
     ER: Expression<R>,
 {
@@ -23,8 +29,11 @@ where
     }
 }
 
-impl<L: Clone, R: Clone, Res: Clone, EL, ER> Expression<Res> for CartesianProduct<L, R, Res, EL, ER>
+impl<L, R, Res, EL, ER> Expression<Res> for CartesianProduct<L, R, Res, EL, ER>
 where
+    L: Clone + Eq + PartialEq,
+    R: Clone + Eq + PartialEq,
+    Res: Clone + Eq + PartialEq,
     EL: Expression<L, Output = L>,
     ER: Expression<R, Output = R>,
 {
@@ -42,14 +51,14 @@ mod test {
 
     #[test]
     fn cartesian_product_homogenous_types() {
-        let values1 = &[(1, "test string", 123.4), (2, "another string", 25.6)];
-        let values2 = &[(1, "test string", 123.4), (2, "another string", 25.6)];
+        let values1 = &[(1, "test string", 123), (2, "another string", 25)];
+        let values2 = &[(1, "test string", 123), (2, "another string", 25)];
 
         let expected_result = &[
-            (1, "test string", 123.4, 1, "test string", 123.4),
-            (1, "test string", 123.4, 2, "another string", 25.6),
-            (2, "another string", 25.6, 1, "test string", 123.4),
-            (2, "another string", 25.6, 2, "another string", 25.6),
+            (1, "test string", 123, 1, "test string", 123),
+            (1, "test string", 123, 2, "another string", 25),
+            (2, "another string", 25, 1, "test string", 123),
+            (2, "another string", 25, 2, "another string", 25),
         ];
 
         assert_eq!(
@@ -63,14 +72,14 @@ mod test {
 
     #[test]
     fn cartesian_product_heterogenous_types() {
-        let values1 = &[(1, "test string", 123.4), (2, "another string", 25.6)];
+        let values1 = &[(1, "test string", 123), (2, "another string", 25)];
         let values2 = &[("a", 1), ("b", 2)];
 
         let expected_result = &[
-            (1, "test string", 123.4, "a", 1),
-            (1, "test string", 123.4, "b", 2),
-            (2, "another string", 25.6, "a", 1),
-            (2, "another string", 25.6, "b", 2),
+            (1, "test string", 123, "a", 1),
+            (1, "test string", 123, "b", 2),
+            (2, "another string", 25, "a", 1),
+            (2, "another string", 25, "b", 2),
         ];
 
         assert_eq!(

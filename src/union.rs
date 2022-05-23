@@ -6,8 +6,9 @@ use std::marker::PhantomData;
 /// Note that this is operation uses bag semantics and so duplicates can
 // appear in the result.
 #[derive(Clone)]
-pub struct Union<S: Clone, E1, E2>
+pub struct Union<S, E1, E2>
 where
+    S: Clone + Eq + PartialEq,
     E1: Expression<S>,
     E2: Expression<S>,
 {
@@ -16,8 +17,9 @@ where
     phantom: PhantomData<S>,
 }
 
-impl<S: Clone, E1, E2> Union<S, E1, E2>
+impl<S, E1, E2> Union<S, E1, E2>
 where
+    S: Clone + Eq + PartialEq,
     E1: Expression<S>,
     E2: Expression<S>,
 {
@@ -30,8 +32,9 @@ where
     }
 }
 
-impl<S: Clone, E1, E2> Expression<S> for Union<S, E1, E2>
+impl<S, E1, E2> Expression<S> for Union<S, E1, E2>
 where
+    S: Clone + Eq + PartialEq,
     E1: Expression<S, Output = S>,
     E2: Expression<S, Output = S>,
 {
@@ -53,7 +56,7 @@ mod test {
 
     #[test]
     fn union_right_identity() {
-        let values = &[(1, "test string", 123.4), (2, "another string", 25.6)];
+        let values = &[(1, "test string", 123), (2, "another string", 25)];
 
         assert_eq!(
             Union::new(Terminal::new(values), Terminal::new(&[])).eval(),
@@ -63,7 +66,7 @@ mod test {
 
     #[test]
     fn union_left_identity() {
-        let values = &[(1, "test string", 123.4), (2, "another string", 25.6)];
+        let values = &[(1, "test string", 123), (2, "another string", 25)];
 
         assert_eq!(
             Union::new(Terminal::new(&[]), Terminal::new(values)).eval(),
@@ -73,14 +76,14 @@ mod test {
 
     #[test]
     fn union_multiple() {
-        let values1 = &[(1, "test string", 123.4), (2, "another string", 25.6)];
-        let values2 = &[(3, "test string", 123.4), (4, "another string", 25.6)];
+        let values1 = &[(1, "test string", 123), (2, "another string", 25)];
+        let values2 = &[(3, "test string", 123), (4, "another string", 25)];
 
         let expected_result = &[
-            (1, "test string", 123.4),
-            (2, "another string", 25.6),
-            (3, "test string", 123.4),
-            (4, "another string", 25.6),
+            (1, "test string", 123),
+            (2, "another string", 25),
+            (3, "test string", 123),
+            (4, "another string", 25),
         ];
 
         assert_eq!(
