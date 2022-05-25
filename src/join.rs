@@ -153,7 +153,7 @@ mod test {
             Join::new(
                 Terminal::new(values1),
                 Terminal::new(values2),
-                |x, y| false,
+                |_, _| false,
                 |x, y| (x.0, x.1, x.2, y.0, y.1),
             )
             .eval(),
