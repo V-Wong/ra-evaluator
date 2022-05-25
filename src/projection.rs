@@ -1,4 +1,4 @@
-use crate::Expression;
+use crate::{Expression, Relation};
 
 /// Picks a subset of columns from each tuple according to ``mapper``.
 /// 
@@ -7,8 +7,8 @@ use crate::Expression;
 #[derive(Clone)]
 pub struct Projection<S, T, E>
 where
-    S: Clone + Eq + PartialEq,
-    T: Clone + Eq + PartialEq,
+    S: Relation,
+    T: Relation,
     E: Expression<S>,
 {
     pub expression: E,
@@ -17,8 +17,8 @@ where
 
 impl<S, T, E> Projection<S, T, E>
 where
-    S: Clone + Eq + PartialEq,
-    T: Clone + Eq + PartialEq,
+    S: Relation,
+    T: Relation,
     E: Expression<S>, 
 {
     pub fn new(expression: E, mapper: fn(&S) -> T) -> Self {
@@ -31,8 +31,8 @@ where
 
 impl<S, T, E> Expression<T> for Projection<S, T, E>
 where
-    S: Clone + Eq + PartialEq,
-    T: Clone + Eq + PartialEq,
+    S: Relation,
+    T: Relation,
     E: Expression<S>,
 {
     fn eval(&self) -> Vec<T> {

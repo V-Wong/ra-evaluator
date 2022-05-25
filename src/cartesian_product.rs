@@ -1,12 +1,12 @@
-use crate::{Expression, Join};
+use crate::{Expression, Relation, Join};
 
 /// Produces the unconditional join of ``left_expression`` and ``right_expression``.
 #[derive(Clone)]
 pub struct CartesianProduct<L, R, Res, EL, ER>
 where
-    L: Clone + Eq + PartialEq,
-    R: Clone + Eq + PartialEq,
-    Res: Clone + Eq + PartialEq,
+    L: Relation,
+    R: Relation,
+    Res: Relation,
     EL: Expression<L>,
     ER: Expression<R>,
 {
@@ -15,9 +15,9 @@ where
 
 impl<L, R, Res, EL, ER> CartesianProduct<L, R, Res, EL, ER>
 where
-    L: Clone + Eq + PartialEq,
-    R: Clone + Eq + PartialEq,
-    Res: Clone + Eq + PartialEq,
+    L: Relation,
+    R: Relation,
+    Res: Relation,
     EL: Expression<L>,
     ER: Expression<R>,
 {
@@ -30,9 +30,9 @@ where
 
 impl<L, R, Res, EL, ER> Expression<Res> for CartesianProduct<L, R, Res, EL, ER>
 where
-    L: Clone + Eq + PartialEq,
-    R: Clone + Eq + PartialEq,
-    Res: Clone + Eq + PartialEq,
+    L: Relation,
+    R: Relation,
+    Res: Relation,
     EL: Expression<L>,
     ER: Expression<R>,
 {

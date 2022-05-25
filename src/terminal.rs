@@ -1,4 +1,4 @@
-use crate::Expression;
+use crate::{Expression, Relation};
 
 /// An identity expression to mark the end of an expression chain.
 /// 
@@ -7,7 +7,7 @@ use crate::Expression;
 #[derive(Clone)]
 pub struct Terminal<S>
 where
-    S: Clone + Eq + PartialEq,
+    S: Relation,
 {
     rows: Vec<S>,
 }

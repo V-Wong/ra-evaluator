@@ -1,4 +1,4 @@
-use crate::Expression;
+use crate::{Expression, Relation};
 
 /// Keeps all ``(left_expression, right_expression)`` pairs the match some condition ``predicate``.
 /// 
@@ -8,9 +8,9 @@ use crate::Expression;
 #[derive(Clone)]
 pub struct Join<L, R, Res, EL, ER>
 where
-    L: Clone + Eq + PartialEq,
-    R: Clone + Eq + PartialEq,
-    Res: Clone + Eq + PartialEq,
+    L: Relation,
+    R: Relation,
+    Res: Relation,
     EL: Expression<L>,
     ER: Expression<R>,
 {
@@ -22,9 +22,9 @@ where
 
 impl<L, R, Res, EL, ER> Join<L, R, Res, EL, ER>
 where
-    L: Clone + Eq + PartialEq,
-    R: Clone + Eq + PartialEq,
-    Res: Clone + Eq + PartialEq,
+    L: Relation,
+    R: Relation,
+    Res: Relation,
     EL: Expression<L>,
     ER: Expression<R>,
 {
@@ -45,9 +45,9 @@ where
 
 impl<L, R, Res, EL, ER> Expression<Res> for Join<L, R, Res, EL, ER>
 where
-    L: Clone + Eq + PartialEq,
-    R: Clone + Eq + PartialEq,
-    Res: Clone + Eq + PartialEq,
+    L: Relation,
+    R: Relation,
+    Res: Relation,
     EL: Expression<L>,
     ER: Expression<R>,
 {

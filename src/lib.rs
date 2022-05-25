@@ -31,6 +31,11 @@
 //! 
 //! ```
 
+/// Any type that is cloneable and can be compared by equality is
+/// a valid relation that can be operated on by relational algebra operations.
+pub trait Relation: Clone + Eq + PartialEq {}
+impl<T> Relation for T where T: Clone + Eq + PartialEq {}
+
 mod expression;
 mod expression_builder;
 mod projection;

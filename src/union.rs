@@ -1,4 +1,4 @@
-use crate::Expression;
+use crate::{Expression, Relation};
 
 use std::marker::PhantomData;
 
@@ -9,7 +9,7 @@ use std::marker::PhantomData;
 #[derive(Clone)]
 pub struct Union<S, E1, E2>
 where
-    S: Clone + Eq + PartialEq,
+    S: Relation,
     E1: Expression<S>,
     E2: Expression<S>,
 {
@@ -20,7 +20,7 @@ where
 
 impl<S, E1, E2> Union<S, E1, E2>
 where
-    S: Clone + Eq + PartialEq,
+    S: Relation,
     E1: Expression<S>,
     E2: Expression<S>,
 {
@@ -35,7 +35,7 @@ where
 
 impl<S, E1, E2> Expression<S> for Union<S, E1, E2>
 where
-    S: Clone + Eq + PartialEq,
+    S: Relation,
     E1: Expression<S>,
     E2: Expression<S>,
 {

@@ -10,7 +10,7 @@ use std::marker::PhantomData;
 /// algebra transformations sequentially and obtain a result.
 pub struct ExpressionBuilder<S, E>
 where
-    S: Clone + Eq + PartialEq,
+    S: Relation,
     E: Expression<S>,
 {
     expression: E,
@@ -19,12 +19,12 @@ where
 
 impl<S, E> ExpressionBuilder<S, E>
 where
-    S: Clone + Eq + PartialEq,
+    S: Relation,
     E: Expression<S>,
 {
     pub fn new<T>(expression: E) -> ExpressionBuilder<T, E>
     where
-        T: Clone + Eq + PartialEq,
+        T: Relation,
         E: Expression<T>
     {
         ExpressionBuilder {
@@ -38,7 +38,7 @@ where
         mapper: fn(&S) -> T,
     ) -> ExpressionBuilder<T, Projection<S, T, E>>
     where
-        T: Clone + Eq + PartialEq
+        T: Relation
     {
         ExpressionBuilder {
             expression: Projection::new(self.expression.clone(), mapper),
@@ -60,8 +60,8 @@ where
         mapper: fn(&S, &R) -> Res,
     ) -> ExpressionBuilder<Res, Join<S, R, Res, E, Terminal<R>>>
     where
-        R: Clone + Eq + PartialEq,
-        Res: Clone + Eq + PartialEq,
+        R: Relation,
+        Res: Relation,
     {
         ExpressionBuilder {
             expression: Join::new(
@@ -97,8 +97,8 @@ where
         mapper: fn(&S, &R) -> Res,
     ) -> ExpressionBuilder<Res, CartesianProduct<S, R, Res, E, Terminal<R>>>
     where
-        R: Clone + Eq + PartialEq,
-        Res: Clone + Eq + PartialEq,
+        R: Relation,
+        Res: Relation,
     {
         ExpressionBuilder {
             expression: CartesianProduct::new(

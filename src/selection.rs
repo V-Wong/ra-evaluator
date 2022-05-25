@@ -1,10 +1,10 @@
-use crate::Expression;
+use crate::{Expression, Relation};
 
 /// Filters the tuples in ``expression`` that satisfy ``predicate``.
 #[derive(Clone)]
 pub struct Selection<S, E>
 where
-    S: Clone + Eq + PartialEq,
+    S: Relation,
     E: Expression<S>,
 {
     pub expression: E,
@@ -13,7 +13,7 @@ where
 
 impl<S, E> Selection<S, E>
 where
-    S: Clone + Eq + PartialEq,
+    S: Relation,
     E: Expression<S>, 
 {
     pub fn new(expression: E, predicate: fn(&S) -> bool) -> Self {
@@ -26,7 +26,7 @@ where
 
 impl<S, E> Expression<S> for Selection<S, E>
 where
-    S: Clone + Eq + PartialEq,
+    S: Relation,
     E: Expression<S>,
 {
     fn eval(&self) -> Vec<S> {
