@@ -7,8 +7,8 @@ where
     S: Relation,
     E: Expression<S>,
 {
-    pub expression: E,
-    pub predicate: fn(&S) -> bool
+    expression: E,
+    predicate: fn(&S) -> bool
 }
 
 impl<S, E> Selection<S, E>

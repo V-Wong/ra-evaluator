@@ -11,8 +11,8 @@ where
     T: Relation,
     E: Expression<S>,
 {
-    pub expression: E,
-    pub mapper: fn(&S) -> T
+    expression: E,
+    mapper: fn(&S) -> T
 }
 
 impl<S, T, E> Projection<S, T, E>

@@ -13,8 +13,8 @@ where
     E1: Expression<S>,
     E2: Expression<S>,
 {
-    pub left_expression: E1,
-    pub right_expression: E2,
+    left_expression: E1,
+    right_expression: E2,
     phantom: PhantomData<S>,
 }
 

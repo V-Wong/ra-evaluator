@@ -14,10 +14,10 @@ where
     EL: Expression<L>,
     ER: Expression<R>,
 {
-    pub left_expression: EL,
-    pub right_expression: ER,
-    pub predicate: fn(&L, &R) -> bool,
-    pub mapper: fn(&L, &R) -> Res,
+    left_expression: EL,
+    right_expression: ER,
+    predicate: fn(&L, &R) -> bool,
+    mapper: fn(&L, &R) -> Res,
 }
 
 impl<L, R, Res, EL, ER> Join<L, R, Res, EL, ER>

@@ -10,7 +10,7 @@ where
     EL: Expression<L>,
     ER: Expression<R>,
 {
-    pub joiner: Join<L, R, Res, EL, ER>,
+    joiner: Join<L, R, Res, EL, ER>,
 }
 
 impl<L, R, Res, EL, ER> CartesianProduct<L, R, Res, EL, ER>
