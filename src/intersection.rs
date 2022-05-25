@@ -1,8 +1,5 @@
 use crate::{Expression, Relation};
 
-use std::collections::HashSet;
-use std::hash::Hash;
-use std::iter::FromIterator;
 use std::marker::PhantomData;
 
 /// Keeps only the tuples that are in both ``left_expression`` and ``right_expression``
